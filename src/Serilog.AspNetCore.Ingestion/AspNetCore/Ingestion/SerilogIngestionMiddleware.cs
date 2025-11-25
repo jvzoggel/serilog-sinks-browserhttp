@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog.Core;
 using Serilog.Debugging;
 using Serilog.Formatting.Compact.Reader;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Serilog.AspNetCore.Ingestion
 {
@@ -34,7 +34,7 @@ namespace Serilog.AspNetCore.Ingestion
             _eventBodyLimitBytes = options.EventBodyLimitBytes;
             _clientLevelSwitch = options.ClientLevelSwitch;
         }
-        
+
         public async Task Invoke(HttpContext context, Func<Task> next)
         {
             if (context.Request.Path != _endpointPath)
@@ -67,7 +67,7 @@ namespace Serilog.AspNetCore.Ingestion
                         {
                             if (_originPropertyName != null)
                                 evt.RemovePropertyIfPresent(_originPropertyName); // Ensure the client can't override this
-    
+
                             _log.Write(evt);
                         }
                     }
